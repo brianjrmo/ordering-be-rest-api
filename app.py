@@ -3,9 +3,11 @@ from flask_restful import Api
 from flask_jwt import JWT
 from security import authenticate,identity
 from resources.user import UserRegister,UserList
+import os
 
 app=Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI']='postgresql://postgres:593935@localhost/urstodr001'
+app.config['SQLALCHEMY_DATABASE_URI']=os.environ.get('DATABASE_URL',\
+              'postgresql://postgres:593935@localhost/urstodr001')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS']=False
 
 app.secret_key='brianmo'
