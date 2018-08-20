@@ -52,8 +52,10 @@ def selectFirst(data1,data2):
         return data1
     
 def json(dataRow):
-    return {c.name: helper.formatString(getattr(dataRow, c.name))\
+    jsonObj= {c.name: helper.formatString(getattr(dataRow, c.name))\
             for c in dataRow.__table__.columns}
+    jsonObj['password']='********'
+    return jsonObj
     
 def save_to_db(dataRow):
     db.session.add(dataRow)

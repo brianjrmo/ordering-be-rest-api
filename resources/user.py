@@ -25,7 +25,8 @@ class UserRegister(Resource):
         if security.isAuthorized(merchant_code,username):
             user=UserModel.find_by_name(username,merchant_code)
             if user:
-                return helper.json(user)
+                jsonObj = helper.json(user)
+                return jsonObj
             else:
                 return {'message': 'User not found'},404
         else:
