@@ -1,7 +1,9 @@
 import helper
 import os
 from db import db
+from flask_jwt import current_identity
 from datetime import datetime
+from models.audit import AuditModel
 
 DATEYMD='%Y-%m-%d'
 DATEYMDHMS='%Y-%m-%d %H:%M:%S'
@@ -59,9 +61,27 @@ def json(dataRow):
     return jsonObj
     
 def save_to_db(dataRow):
+    toAudit(dataRow,'save')
     db.session.add(dataRow)
     db.session.commit()
 
 def delete_from_db(dataRow):
+    toAudit(dataRow,'delete')
     db.session.delete(dataRow)
     db.session.commit()
+    
+def toAudit(dataRow,action):
+    dictData=json(dataRow)
+    if dataRow.__tablename__ == 'merchant':
+        merchant_code=dictData['code']
+    else:
+        merchant_code=dictData['merchant_code']
+    logRec=AuditModel(merchant_code,\
+                      current_identity.username,\
+                      action,\
+                      dataRow.__tablename__,
+                      formatString(datetime.now()),\
+                      str(dictData))
+    db.session.add(logRec)
+            
+            
