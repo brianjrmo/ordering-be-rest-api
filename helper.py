@@ -54,7 +54,8 @@ def selectFirst(data1,data2):
 def json(dataRow):
     jsonObj= {c.name: helper.formatString(getattr(dataRow, c.name))\
             for c in dataRow.__table__.columns}
-    jsonObj['password']='********'
+    if 'password' in jsonObj:
+        jsonObj['password']='********'
     return jsonObj
     
 def save_to_db(dataRow):
