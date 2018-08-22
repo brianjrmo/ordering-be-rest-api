@@ -72,10 +72,19 @@ def delete_from_db(dataRow):
     
 def toAudit(dataRow,action):
     dictData=json(dataRow)
+    
     if dataRow.__tablename__ == 'merchant':
         merchant_code=dictData['code']
+        action='update'
     else:
         merchant_code=dictData['merchant_code']
+        if action=='save':
+            writelog(str(dictData['id']))
+            if dictData['id'] == 'None' :
+                action='add'
+            else:
+                action='update'
+                
     logRec=AuditModel(merchant_code,\
                       current_identity.username,\
                       action,\
