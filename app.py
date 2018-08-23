@@ -11,6 +11,7 @@ from resources.order import Order,OrderList
 from resources.orderproduct import OrderProduct,OrderProductList
 from resources.comment import Comment,CommentList
 from resources.branchproduct import BranchProduct,BranchProductList
+from resources.demo import Demo
 import os
 import helper
 
@@ -47,6 +48,7 @@ api.add_resource(Comment, '/<string:merchant_code>/comment/<int:id>')
 api.add_resource(CommentList, '/<string:merchant_code>/commentlist')
 api.add_resource(BranchProduct, '/<string:merchant_code>/branchproduct/<int:id>')
 api.add_resource(BranchProductList, '/<string:merchant_code>/branchproductlist')
+api.add_resource(Demo, '/demo')
 
 if __name__=='__main__':
     from db import db
